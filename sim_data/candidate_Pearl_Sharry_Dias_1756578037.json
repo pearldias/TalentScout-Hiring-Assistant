@@ -1,0 +1,80 @@
+{
+  "timestamp": "2025-08-30T23:50:37.236913",
+  "candidate": {
+    "Full Name": "Pearl Sharry Dias",
+    "Email": "psd132004@gmail.com",
+    "Phone Number": "1234567",
+    "Years of Experience": 0,
+    "Desired Position(s)": "SDE",
+    "Current Location": "Goa",
+    "Tech Stack": "C++,Java,Python"
+  },
+  "responses": {
+    "C++": [
+      {
+        "question": "Explain the difference between a pointer and a reference in C++.  Provide an example demonstrating their usage.",
+        "answer_outline": "Pointers hold memory addresses, while references are aliases to existing variables.  The answer should include a code example showcasing the differences in declaration, usage, and potential pitfalls (e.g., null pointers vs. always initialized references).",
+        "difficulty": "intermediate"
+      },
+      {
+        "question": "What are the four main access specifiers in C++ and how do they affect class members?",
+        "answer_outline": "The answer should correctly list public, private, protected, and friend access specifiers and explain how each one controls the visibility and accessibility of class members (data and methods).",
+        "difficulty": "beginner"
+      },
+      {
+        "question": "Describe polymorphism in C++ and illustrate its implementation using virtual functions and inheritance.",
+        "answer_outline": "The explanation should cover the concept of polymorphism (many forms), emphasizing the role of virtual functions and inheritance in achieving runtime polymorphism. A simple example with a base class and derived classes demonstrating method overriding would be sufficient.",
+        "difficulty": "intermediate"
+      },
+      {
+        "question": "Explain the concept of RAII (Resource Acquisition Is Initialization) in C++ and its benefits.",
+        "answer_outline": "The answer should describe RAII as a programming idiom where resource allocation and deallocation are tied to object creation and destruction, thus preventing resource leaks.  Mention examples like smart pointers.",
+        "difficulty": "intermediate"
+      }
+    ],
+    "Java": [
+      {
+        "question": "What is the difference between `==` and `.equals()` when comparing strings in Java?",
+        "answer_outline": "`==` compares memory addresses, while `.equals()` compares the actual string content.  The answer should explain this difference with an example.",
+        "difficulty": "beginner"
+      },
+      {
+        "question": "Explain the concept of inheritance in Java and provide an example illustrating its use.",
+        "answer_outline": "The answer should cover the basics of inheritance (extends keyword), including single, multiple, and hierarchical inheritance with a clear code example to demonstrate how classes inherit properties and methods.",
+        "difficulty": "beginner"
+      },
+      {
+        "question": "Describe the difference between an interface and an abstract class in Java.",
+        "answer_outline": "The answer should highlight that interfaces can only have abstract methods (since Java 8, they can have default methods), whereas abstract classes can have both abstract and concrete methods.  An explanation of their respective uses is expected.",
+        "difficulty": "intermediate"
+      },
+      {
+        "question": "What are Java Generics and how do they help improve code safety and reusability?",
+        "answer_outline": "The answer should explain generics as a way to write type-safe code that can work with various data types without type casting, reducing runtime errors and increasing code flexibility.",
+        "difficulty": "intermediate"
+      }
+    ],
+    "Python": [
+      {
+        "question": "Explain the difference between lists and tuples in Python.",
+        "answer_outline": "Lists are mutable (changeable), while tuples are immutable (unchangeable).  Mention the syntax and common use cases for both data structures.",
+        "difficulty": "beginner"
+      },
+      {
+        "question": "How do you handle exceptions in Python using `try`, `except`, `finally` blocks?",
+        "answer_outline": "The answer should provide a basic code example demonstrating how to use these blocks to catch and handle exceptions gracefully, including the `finally` block for cleanup operations.",
+        "difficulty": "beginner"
+      },
+      {
+        "question": "What is a lambda function in Python and provide an example of its usage?",
+        "answer_outline": "Explain lambda functions as small, anonymous functions often used with higher-order functions like `map` or `filter`.  Include a concise code example.",
+        "difficulty": "intermediate"
+      },
+      {
+        "question": "Explain the concept of list comprehension in Python and its benefits over traditional loops.",
+        "answer_outline": "The answer should cover list comprehension as a concise way to create lists based on existing iterables. Highlight its readability and efficiency advantages compared to explicit loops.",
+        "difficulty": "intermediate"
+      }
+    ]
+  }
+}
