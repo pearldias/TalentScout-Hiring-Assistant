@@ -1,115 +1,4 @@
 
-
-# import os
-# import streamlit as st
-# from google import genai
-# from google.genai import types
-# from dotenv import load_dotenv
-
-# load_dotenv()
-# # ==========================
-# # Gemini API Setup
-# # ==========================
-# client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
-# MODEL = "gemini-2.5-pro"
-
-# # ==========================
-# # Config & Safety
-# # ==========================
-# tools = [types.Tool(googleSearch=types.GoogleSearch())]
-
-# generate_content_config = types.GenerateContentConfig(
-#     thinking_config=types.ThinkingConfig(thinking_budget=-1),
-#     safety_settings=[
-#         types.SafetySetting(
-#             category="HARM_CATEGORY_HARASSMENT",
-#             threshold="BLOCK_ONLY_HIGH",
-#         ),
-#         types.SafetySetting(
-#             category="HARM_CATEGORY_HATE_SPEECH",
-#             threshold="BLOCK_ONLY_HIGH",
-#         ),
-#         types.SafetySetting(
-#             category="HARM_CATEGORY_SEXUALLY_EXPLICIT",
-#             threshold="BLOCK_ONLY_HIGH",
-#         ),
-#         types.SafetySetting(
-#             category="HARM_CATEGORY_DANGEROUS_CONTENT",
-#             threshold="BLOCK_ONLY_HIGH",
-#         ),
-#     ],
-#     tools=tools,
-# )
-
-# # ==========================
-# # Streamlit UI
-# # ==========================
-# st.set_page_config(page_title="TalentScout Hiring Assistant", page_icon="🤖")
-# st.title("🤖 TalentScout - AI Hiring Assistant")
-
-# # Initialize session state
-# if "messages" not in st.session_state:
-#     st.session_state.messages = [
-#         {
-#             "role": "user",
-#             "content": """You are "TalentScout," an intelligent Hiring Assistant chatbot for a recruitment agency specializing in technology placements.
-# Your role is to conduct the initial screening of candidates by gathering essential information, understanding their tech stack,
-# and generating tailored multiple-choice technical questions to assess their proficiency.
-
-# ====================
-# 🎯 OBJECTIVES
-# ====================
-
-# ====================
-# 💡 STYLE
-# ====================
-# - Friendly, professional, concise.
-# - Encourage candidate participation.
-# - Keep MCQs challenging but fair.
-# """
-#         },
-#         {
-#             "role": "model",
-#             "content": "Hello! 👋 I'm TalentScout, your AI Hiring Assistant. Let's get started! Could you please tell me your full name?"
-#         }
-#     ]
-
-# # Display previous conversation
-# for msg in st.session_state.messages:
-#     with st.chat_message("assistant" if msg["role"] == "model" else "user"):
-#         st.markdown(msg["content"])
-
-# # ==========================
-# # User Input
-# # ==========================
-# if prompt := st.chat_input("Type your response..."):
-#     # Add user message
-#     st.session_state.messages.append({"role": "user", "content": prompt})
-#     with st.chat_message("user"):
-#         st.markdown(prompt)
-
-#     # Stream AI response
-#     response_text = ""
-#     with st.chat_message("assistant"):
-#         response_container = st.empty()
-#         for chunk in client.models.generate_content_stream(
-#             model=MODEL,
-#             contents=[
-#                 types.Content(
-#                     role=m["role"],
-#                     parts=[types.Part.from_text(text=m["content"])]
-#                 )
-#                 for m in st.session_state.messages
-#             ],
-#             config=generate_content_config,
-#         ):
-#             if chunk.text:
-#                 response_text += chunk.text
-#                 response_container.markdown(response_text)
-
-#     # Save assistant response
-#     st.session_state.messages.append({"role": "model", "content": response_text})
-# app.py
 import os
 import json
 import streamlit as st
@@ -119,16 +8,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# ==========================
+
 # Gemini API Setup
-# ==========================
+
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 MODEL = "gemini-2.5-flash-lite"
 
 
-# ==========================
-# Config & Safety
-# ==========================
+
+# Config & Safety Settings
 tools = [types.Tool(googleSearch=types.GoogleSearch())]
 
 generate_content_config = types.GenerateContentConfig(
@@ -154,12 +42,12 @@ generate_content_config = types.GenerateContentConfig(
     tools=tools,
 )
 
-# ==========================
+
 # Streamlit UI Config
-# ==========================
+
 st.set_page_config(page_title="TalentScout Hiring Assistant", page_icon="🤖")
 
-# Custom CSS
+#  CSS
 st.markdown("""
     <style>
         /* Whole app background */
@@ -201,9 +89,9 @@ st.markdown("""
 
 st.title("🤖 TalentScout - AI Hiring Assistant")
 
-# ==========================
+
 # Session State
-# ==========================
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -244,7 +132,7 @@ if "system_prompt" not in st.session_state:
 - In conversation mode (greeting, info collection, thanking), use natural human-like responses.
 
     - Collect candidate info (name, email, phone, experience, desired position, location, tech stack).
-    - For EACH declared technology, generate **3–5 MCQs** in STRICT JSON format:
+    - For EACH declared technology, generate **3–5 MCQs** in STRICT JSON format. Do not display the JSON block to the candidate. Use it internally only. Instead, ask the questions one by one interactively.:
         {
           "technology": "Python",
           "questions": [
@@ -273,16 +161,14 @@ if "current_q" not in st.session_state:
 if "awaiting_answer" not in st.session_state:
     st.session_state.awaiting_answer = False
 
-# ==========================
-# Display Chat History
-# ==========================
+
+# Chat History
+
 for msg in st.session_state.messages:
     with st.chat_message("assistant" if msg["role"] == "model" else "user"):
         st.markdown(msg["content"])
 
-# ==========================
-# If there’s a pending MCQ, render it interactively
-# ==========================
+
 if st.session_state.current_q:
     q = st.session_state.current_q
     st.markdown(f"**{q['question']}**")
@@ -307,9 +193,7 @@ if st.session_state.current_q:
             })
         st.experimental_rerun()
 
-# ==========================
-# User Input (only if not awaiting MCQ answer)
-# ==========================
+
 elif not st.session_state.awaiting_answer:
     if prompt := st.chat_input("Type your response..."):
         # Store user message
@@ -317,7 +201,7 @@ elif not st.session_state.awaiting_answer:
         with st.chat_message("user"):
             st.markdown(prompt)
 
-        # Stream Gemini response
+        
         response_text = ""
         with st.chat_message("assistant"):
             response_container = st.empty()
@@ -340,7 +224,7 @@ elif not st.session_state.awaiting_answer:
             response_text = chunks.text
             response_container.markdown(response_text)
 
-        # Try to parse JSON MCQs
+        #  parse JSON MCQs
         try:
             parsed = json.loads(response_text)
             if isinstance(parsed, list):
